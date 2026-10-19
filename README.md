@@ -1,4 +1,4 @@
-\[!\[DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23473442.svg)](https://doi.org/10.5281/zenodo.23473442)
+DOI: https://doi.org/10.5281/zenodo.23473441
 
 
 
@@ -267,9 +267,9 @@ If you use LEYLA in your research, please cite it as:
 
 &#x20; version      = {v1.0.1},
 
-&#x20; doi          = {10.5281/zenodo.23473442},
+&#x20; doi          = {10.5281/zenodo.23473441},
 
-&#x20; url          = {https://doi.org/10.5281/zenodo.23473442}
+&#x20; url          = {https://doi.org/10.5281/zenodo.23473441}
 
 }
 
