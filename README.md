@@ -1,18 +1,22 @@
-LEYLA: data-Labelling Engine, energy-Yielding, and active-Learning Automation Version 1
+\[!\[DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23473442.svg)](https://doi.org/10.5281/zenodo.23473442)
 
 
 
-Alessandro Morittu
-
-Linkedin: https://www.linkedin.com/in/alessandro-morittu-57758b3a6
-
-GitHub: https://github.com/Armonia-5/LEYLA.git
+\# LEYLA: data-Labelling Engine, energy-Yielding, and active-Learning Automation
 
 
 
-1\. WHAT IS LEYLA
+\*\*Author:\*\* Alessandro Morittu  
 
-Leyla is an automated tool designed to build datasets for training machine learning interatomic potentials. Starting from a LAMMPS trajectory, Leyla checks (if an ensemble of models trained on the same dataset with different SEEDs is already available) for which trajectory configurations model predictions exhibit an uncertainty higher than a user-specified threshold using MACE CALCULATOR. Subsequently, from all uncertain configurations, Leyla extracts unique structures using SOAP (Smooth Overlap of Atomic Positions) descriptors. Once unique structures are selected, Leyla computes their energies and forces using CP2K and formats the dataset file to be compatible with the MACE training architecture. Using the generated dataset, it trains 4 models with different SEEDs and selects the model with the lowest energy and force errors.
+\*\*LinkedIn:\*\* \[Alessandro Morittu](https://www.linkedin.com/in/alessandro-morittu-57758b3a6)  
+
+\*\*GitHub Repository:\*\* \[Armonia-5/LEYLA](https://github.com/Armonia-5/LEYLA.git)
+
+
+
+\## 1. WHAT IS LEYLA
+
+\*\*Leyla\*\* is an automated tool designed to build datasets for training machine learning interatomic potentials. Starting from a LAMMPS trajectory, Leyla checks (if an ensemble of models trained on the same dataset with different SEEDs is already available) for which trajectory configurations model predictions exhibit an uncertainty higher than a user-specified threshold using MACE CALCULATOR. Subsequently, from all uncertain configurations, Leyla extracts unique structures using SOAP (Smooth Overlap of Atomic Positions) descriptors. Once unique structures are selected, Leyla computes their energies and forces using CP2K and formats the dataset file to be compatible with the MACE training architecture. Using the generated dataset, it trains 4 models with different SEEDs and selects the model with the lowest energy and force errors.
 
 
 
@@ -24,9 +28,15 @@ Leyla can also be used iteratively to update datasets: by supplying new trajecto
 
 
 
-\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
+\---
 
-AUTOMATIC INSTALLATION
+
+
+\## 2. INSTALLATION
+
+
+
+\### AUTOMATIC INSTALLATION (Recommended)
 
 To install Leyla, create a dedicated directory (e.g., LEYLA) and copy all repository files into it.
 
@@ -44,7 +54,9 @@ Then, run the installation script from within the LEYLA directory:
 
 
 
-The script will verify required modules, build the environment, install dependency packages, and install the Leyla package itself.\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
+The script will verify required modules, build the environment, install dependency packages, and install the Leyla package itself.
+
+\--------------------
 
 
 
@@ -52,9 +64,9 @@ If you encounter issues with automatic installation, follow the manual steps bel
 
 
 
-\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
+\--------------------
 
-\# MANUAL INSTALLATION
+\### MANUAL INSTALLATION
 
 
 
@@ -98,19 +110,19 @@ Environment preparation
 
 
 
-\# 1. Install PyTorch
+1\. Install PyTorch
 
 pip install torch==2.7.1+cu126 --extra-index-url https://download.pytorch.org/whl/cu126
 
 
 
-\# 2. Install scientific dependencies:
+2\. Install scientific dependencies:
 
 pip install -r requirements.txt
 
 
 
-\# 3 Install MACE inside the Leyla folder
+3\. Install MACE inside the Leyla folder
 
 mkdir MACE
 
@@ -122,7 +134,7 @@ pip install ./mace
 
 
 
-\# 4 Install SYMMETRIX inside the Leyla folder
+4\. Install SYMMETRIX inside the Leyla folder
 
 mkdir SYMMETRYX
 
@@ -134,7 +146,7 @@ cd symmetrix/symmetrix
 
 
 
-\# Set compilers for SYMMETRIX
+5\. Set compilers for SYMMETRIX
 
 export CC=$(which mpicc)
 
@@ -142,7 +154,7 @@ export CXX=$(which mpicxx)
 
 
 
-\# 7 Compile and install SYMMETRIX (adjust flags to your cluster architecture):
+6\. Compile and install SYMMETRIX (adjust flags to your cluster architecture):
 
 export CMAKE\_ARGS="-DCMAKE\_C\_COMPILER=gcc \\
 
@@ -162,11 +174,13 @@ pip install -v -e .
 
 THE ENVIRONMENT IS READY FOR USE.
 
-\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
+
+
+\---
 
 
 
-USAGE \& CONFIGURATION
+\## 3. USAGE \& CONFIGURATION
 
 
 
@@ -204,14 +218,8 @@ Example: If starting from Step 3, your working directory must contain the 02\_MA
 
 
 
-NOTA BENE: Based on how Leyla is structured, when the following is specified for step 3 in the configuration file:
-##############################################
+SOAP conversion: Based on how Leyla is structured, when the following is specified for step 3 in the configuration file:
 
-\# STEP 3: SOAP FILTERING
-
-step\_03\_soap:
-
-&#x20; # File di Input e Output
 
 &#x20; training\_data\_file: "all\_data\_leyla\_test.extxyz"
 
@@ -228,4 +236,48 @@ If training\_data\_file and new\_data\_file have different names, Leyla will aut
 If training\_data\_file and new\_data\_file have identical names, Leyla assumes no existing dataset exists and creates a brand-new dataset.
 
 Recommendation: Even if starting at Step 4 or later (e.g., if you want to compute forces and energies for an existing dataset to train a model), ensure training\_data\_file and new\_data\_file have same names in the Step 3 section of your YAML file to prevent potential errors.
+
+
+
+\## 4. LICENCE
+
+This project is licensed under the MIT License - see the LICENCE file for details.
+
+
+
+\## 5. CITATION
+
+
+
+If you use LEYLA in your research, please cite it as:
+
+
+
+```bibtex
+
+@software{Morittu\_LEYLA\_2026,
+
+&#x20; author       = {Morittu, Alessandro},
+
+&#x20; title        = {{LEYLA: Active Learning Tool}},
+
+&#x20; year         = {2026},
+
+&#x20; publisher    = {Zenodo},
+
+&#x20; version      = {v1.0.1},
+
+&#x20; doi          = {10.5281/zenodo.23473442},
+
+&#x20; url          = {https://doi.org/10.5281/zenodo.23473442}
+
+}
+
+```
+
+
+
+Or in text:
+
+Morittu, A. LEYLA: Active Learning Tool (v1.0.1). Zenodo, 2026. DOI: 10.5281/zenodo.23473442.
 
