@@ -259,7 +259,7 @@ If you use LEYLA in your research, please cite it as:
 
 &#x20; author       = {Morittu, Alessandro},
 
-&#x20; title        = {{LEYLA: Active Learning Tool}},
+&#x20; title        = {{LEYLA: data-Labelling Engine, energy-Yielding, and active-Learning Automation}},
 
 &#x20; year         = {2026},
 
@@ -279,5 +279,5 @@ If you use LEYLA in your research, please cite it as:
 
 Or in text:
 
-Morittu, A. LEYLA: Active Learning Tool (v1.0.1). Zenodo, 2026. DOI: 10.5281/zenodo.23473442.
+Morittu, A. LEYLA: data-Labelling Engine, energy-Yielding, and active-Learning Automation. Zenodo, 2026. DOI: 10.5281/zenodo.23473442.
 

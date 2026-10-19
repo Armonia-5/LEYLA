@@ -4,7 +4,7 @@ authors:
   - family-names: "Morittu"
     given-names: "Alessandro"
     orcid: "https://orcid.org/0009-0009-9214-7627"
-title: "LEYLA: Active Learning Tool"
+title: "LEYLA: data-Labelling Engine, energy-Yielding, and active-Learning Automation"
 version: "1.0.1"
 date-released: 2026-10-19
 url: "https://github.com/Armonia-5/LEYLA"
