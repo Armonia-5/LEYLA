@@ -265,7 +265,7 @@ If you use LEYLA in your research, please cite it as:
 
 &#x20; publisher    = {Zenodo},
 
-&#x20; version      = {v1.0.1},
+&#x20; version      = {v1.0.3},
 
 &#x20; doi          = {10.5281/zenodo.23473441},
 
@@ -279,5 +279,5 @@ If you use LEYLA in your research, please cite it as:
 
 Or in text:
 
-Morittu, A. LEYLA: data-Labelling Engine, energy-Yielding, and active-Learning Automation. Zenodo, 2026. DOI: 10.5281/zenodo.23473442.
+Morittu, A. LEYLA: data-Labelling Engine, energy-Yielding, and active-Learning Automation. Zenodo, 2026. https://doi.org/10.5281/zenodo.23473441.
 
