@@ -1,0 +1,9 @@
+Currently Loaded Modulefiles:
+ 1) profile/base            9) gdbm/1.23-wiol7vk       17) gettext/0.22.5-hsxgafg          25) curl/8.7.1                               33) krb5/1.20.1-n4kmebh
+ 2) cintools/1.0           10) libiconv/1.17-nhc3mhm   18) libffi/3.4.6-4vs4jpp            26) gmake/4.4.1-phqmvks                      34) libedit/3.1-20230828-nme7boz
+ 3) bzip2/1.0.8-ib3znej    11) xz/5.4.6-xxxg42c        19) libxcrypt/4.4.35-7om46b5        27) cmake/3.27.9                             35) openssh/9.7p1-tk2b5yv
+ 4) libmd/1.0.4-2km2lxx    12) zlib-ng/2.1.6-jkgunjc   20) sqlite/3.43.2-4kl5mnp           28) binutils/2.42                            36) openmpi/4.1.6--gcc--12.2.0-cuda-12.2
+ 5) libbsd/0.12.1-oocs6an  13) libxml2/2.10.3-zbbe7lm  21) util-linux-uuid/2.38.1-5achpds  29) gcc/12.2.0                               37) intel-oneapi-tbb/2021.12.0
+ 6) expat/2.6.2-p2t4wry    14) pigz/2.8-5bwzpml        22) python/3.11.7                   30) glibc/2.28--gcc--12.2.0-gi6mmti          38) intel-oneapi-mkl/2024.0.0
+ 7) ncurses/6.5-svfl57u    15) zstd/1.5.6-uq5yyux      23) cuda/12.6                       31) gcc-runtime/12.2.0--gcc--12.2.0-dqfwf7y
+ 8) readline/8.2-zeda6mx   16) tar/1.34-jgektnv        24) nghttp2/1.57.0-634bffh          32) numactl/2.0.14--gcc--12.2.0-cxzp4ci

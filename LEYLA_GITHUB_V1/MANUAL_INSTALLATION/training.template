@@ -1,0 +1,59 @@
+#!/bin/bash
+#SBATCH INFOS (USE GPUs)
+
+#LOAD YOUR MODULES
+module load gcc/12.2.0
+module load profile/base
+module load openmpi/4.1.6--gcc--12.2.0-cuda-12.2
+module load intel-oneapi-mkl/2024.0.0
+
+source {{ENV_PATH}}/activate
+export PYTHONUNBUFFERED=1
+
+MACE_ARGS=(
+{{MACE_ARGS}}
+)
+
+LOG_FILE="mace_training.log"
+> "$LOG_FILE"
+
+echo "Starting first training phase (Seed {{SEED}})..."
+
+{{PYTHON_BIN}} {{MACE_SCRIPT}} \
+    "${MACE_ARGS[@]}" \
+    --max_num_epochs={{MAX_NUM_EPOCHS}} > "$LOG_FILE" 2>&1 &
+
+MACE_PID=$!
+echo "Training started in background with PID: $MACE_PID"
+
+echo "Monitoring log..."
+while kill -0 $MACE_PID 2>/dev/null; do
+    if tail -n 50 "$LOG_FILE" 2>/dev/null | grep -q "Stopping optimization"; then
+        echo "Condition 'Stopping optimization' found! Terminating..."
+        kill -INT $MACE_PID 2>/dev/null
+        for t in {1..15}; do
+            kill -0 $MACE_PID 2>/dev/null || break
+            sleep 1
+        done
+        if kill -0 $MACE_PID 2>/dev/null; then
+            kill -TERM $MACE_PID 2>/dev/null
+        fi
+        break
+    fi
+    sleep 5
+done
+
+wait $MACE_PID 2>/dev/null
+
+echo "Training phase completed. Creating backup..."
+BACKUP_DIR="backup_mace_$(date +%Y%m%d_%H%M%S)"
+mkdir -p "$BACKUP_DIR"
+rsync -a --exclude="$BACKUP_DIR" --exclude="lammps.out" --exclude="lammps.err" --exclude="*.err" --exclude="*.out" ./ "$BACKUP_DIR/"
+
+echo "Starting final phase (--max_num_epochs=0 --restart_latest)..."
+{{PYTHON_BIN}} {{MACE_SCRIPT}} \
+    "${MACE_ARGS[@]}" \
+    --max_num_epochs=0 \
+    --restart_latest
+
+echo "Job completed successfully!"

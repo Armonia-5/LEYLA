@@ -1,0 +1,26 @@
+# LEYLA Core Scientific Dependencies
+ase>=3.29.0
+cp2k-input-tools>=0.9.1
+Cp2kData>=0.7.3
+dpdata>=1.0.2
+dscribe>=2.1.2
+e3nn>=0.4.4
+h5py>=3.16.0
+matscipy>=1.2.0
+monty>=2026.7.0
+numba>=0.67.0
+numpy>=2.0.0
+pandas>=2.2.0
+pydantic>=2.10.0
+PyYAML>=6.0.3
+scikit-learn>=1.5.0
+scipy>=1.14.0
+sympy>=1.13.0
+torch-ema>=0.3
+torchmetrics>=1.6.0
+tqdm>=4.66.0
+rich>=14.0.0
+ruamel.yaml>=0.19.0
+matplotlib>=3.9.0
+click>=8.1.0
+cmake>=3.27.0

@@ -1,0 +1,144 @@
+##############################################
+# STEP 1: LAMMPS TO XYZ
+system:
+  lammps_types: [1, 2, 3]
+  xyz_elements: ["Si", "O", "Al"]
+  expected_n_atoms: 118
+
+step_01_conversion:
+  input_file: "traj.lammpstrj"
+  output_file: "traj.xyz"
+
+##############################################
+# STEP 2: MACE CALCULATOR
+step_02_mace:
+  models:
+    - "file_model_1"
+    - "fine_model_2"
+    - "fine_model_3"
+    - "fine_model_4"
+  model_type: "MACE"
+  input_file: "traj.xyz"
+  output_file: "traj-std.xyz"
+  out_thresh: "traj-above-thresh.xyz"
+  threshold: 0.03         # (min uncertainty)
+  threshold_max: 0.25     # (max uncertainty) Beyond this it is discarded
+  stride: 1
+  plotfile: "uncertainty_histogram.png"
+  out_data: "file_for_plot.dat"
+  out_raw: "file_for_plot_raw.dat"
+
+##############################################
+# STEP 3: SOAP FILTERING
+step_03_soap:
+  # File di Input e Output
+  training_data_file: "all_data_leyla_test.extxyz"
+  new_data_file: "traj-above-thresh.xyz"
+  output_file: "selected_with_soap_final.extxyz"
+  progress_file: "soap_progress.txt"
+  
+  # Structure Selection (ASE Index)
+  training_index: ":"
+  new_data_index: "::1"
+  
+  # SOAP / Kernel Algorithm Parameters
+  zeta: 1
+  threshold: 0.9990
+  
+  # SOAP Descriptor (DScribe)
+  species: ["Si", "O", "Al"]
+  r_cut: 5.0
+  n_max: 4
+  l_max: 4
+  average: "inner"
+  sparse: false
+  
+  # Geometry and Atomic Centers
+  box_size:
+    - [0.000, 0.000, 0.000]
+    - [0.000, 0.000, 0.000]
+    - [0.000, 0.000, 0.000]
+  centers: [1, 2, 3, 4]
+
+##############################################
+# STEP 4: CP2K REFTRAJ EVALUATION
+step_04_reftraj:
+  # Input Files and Trajectories
+  inp_file: "intermediate_reftraj.inp"
+  traj_file: "selected_with_soap_final.xyz"
+  coord_dat: "coord.dat"
+  coord_xyz: "coord.xyz"
+  
+  # CP2K Environment and Executable
+  cp2k_bin: "cp2k.popt"
+  modules:
+    - "profile/chem-phys"
+    - "cp2k/2024.1--intel-oneapi-mpi--2021.10.0--intel--2021.10.0" #load your modules for cp2k
+
+##############################################
+# STEP 5: DATA CONVERSION & POST-PROCESSING
+step_05_convert:
+  final_output_name: "all_data_active_learning.extxyz"
+  conversion_script: "conversion.py"
+  cp2k_output_name: "output"
+  files_to_keep:
+    - "pos-1.xyz"
+    - "forces-frc-1.xyz"
+    - "1.ener"
+    - "output"
+    - "conversion_myjob"
+    - "cp2k.out"
+    - "cp2k.err"
+    - "leyla_config.yaml"
+
+##############################################
+# STEP 6: MACE FINE-TUNING
+step_06_finetune:
+  template_file: "training.template"
+  python_bin: "path/LEYLA/bin/python"
+  env_path: "path/LEYLA/bin/"
+  mace_script: "path/LEYLA/MACE/mace/mace/cli/run_train.py"
+  
+  # Common MACE parameters
+  common_args:
+    train_file: "all_data_leyla_AL_1.extxyz"
+    foundation_model: "mace.model"
+    pt_train_file: "selected_configs.xyz"
+    valid_fraction: 0.05
+    weight_pt: 1.0
+    atomic_numbers: "[8,13,14]"
+    multiheads_finetuning: "True"
+    forces_key: "REF_forces"
+    energy_key: "REF_energy"
+    E0s: "{8:-431,13:-52,14:-102}" #put your single atom energies
+    model: "MACE"
+    hidden_irreps: "256x0e"
+    num_interactions: 2
+    num_channels: 256
+    max_L: 2
+    correlation: 3
+    r_max: 7
+    batch_size: 10
+    ema: true
+    error_table: "PerAtomRMSE"
+    default_dtype: "float64"
+    device: "cuda"
+    amsgrad: true
+    patience: 20
+    save_cpu: true
+    max_num_epochs: 2000
+
+  # The 4 seeds with their respective identifiers
+  runs:
+    - id: 1
+      name: "model_seed_1"
+      seed: 121
+    - id: 2
+      name: "model_seed_2"
+      seed: 292
+    - id: 3
+      name: "model_seed_3"
+      seed: 433
+    - id: 4
+      name: "model_seed_4"
+      seed: 505
