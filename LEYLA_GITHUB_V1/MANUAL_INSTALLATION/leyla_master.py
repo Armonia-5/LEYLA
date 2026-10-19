@@ -15,19 +15,21 @@ from datetime import datetime
 
 def print_banner():
     banner = r"""
-                                  ██╗      ███████╗██╗    ██╗██╗       █████╗ 
+                                  ██╗      ███████╗██╗   ██╗██╗       █████╗ 
                                   ██║      ██╔════╝╚██╗ ██╔╝██║      ██╔══██╗
-                                  ██║      █████╗   ╚████╔╝ ██║       ███████║
-                                  ██║      ██╔══╝    ╚██╔╝  ██║       ██╔═ ═██╗
-                                  ███████╗███████╗  ██║   ███████╗ ██║    ██║
-                                  ╚══════╝╚══════╝  ╚═╝   ╚══════╝╚═╝     ╚═╝
+                                  ██║      █████╗   ╚████╔╝ ██║      ███████║
+                                  ██║      ██╔══╝    ╚██╔╝  ██║      ██╔══██╗
+                                  ███████╗ ███████╗   ██║   ███████╗ ██║  ██║
+                                  ╚══════╝ ╚══════╝   ╚═╝   ╚══════╝ ╚═╝  ╚═╝
                   ***********************************************************************************
                   *                                     LEYLA:                                      *
-                  * Learning Engine data-Labelling, energy-Yielding, and active-Learning Automation *
+                  * LEYLA: data-Labelling Engine, energy-Yielding, and active-Learning Automation   *
                   *                                                                                 *
                   *                                Alessandro Morittu                               *
-                  *                                     GitHub                                      *
-                  *                    https://github.com/Armonia-5/LEYLA.git                       *
+                  *                                     Linkedin                                    *
+                  *             https://www.linkedin.com/in/alessandro-morittu-57758b3a6            *
+                  *                                      GitHub                                     *
+                  *                     https://github.com/Armonia-5/LEYLA.git                      *
                   ***********************************************************************************
 """
     print(banner)
