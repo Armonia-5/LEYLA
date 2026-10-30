@@ -68,7 +68,8 @@ while true; do
 
     # 2. Crash point identification
     CURRENT_FIRST=$(grep "FIRST_SNAPSHOT" $INP_FILE | awk '{print $2}' | tr -d ',\r')
-    ENER_FILE="cha_MD-1.ener"
+    PROJECT_NAME=$(grep -i "PROJECT" "$INP_FILE" | head -n 1 | awk '{print $2}' | tr -d '\r')
+    ENER_FILE="${PROJECT_NAME}-1.ener"
     COMPLETED_STEPS=0
     
     if [ -f "$ENER_FILE" ]; then
