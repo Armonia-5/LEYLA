@@ -67,16 +67,41 @@ def main():
     for dir_path in all_dirs:
         print(f">>> Processing directory: {dir_path}")
 
-        # --- CHECK FOR CP2K OUTPUT FILES ---
-        # Check that the simulation produced at least the base files for conversion
-        ener_file = os.path.join(dir_path, "cha_MD-1.ener")
-        pos_file = os.path.join(dir_path, "cha_MD-pos-1.xyz")
+        # --- CHECK FOR CP2K OUTPUT FILES (DYNAMICALLY & COMPLETE) ---
+        inp_path = os.path.join(dir_path, "intermediate_reftraj.inp")
+        project_name = None
 
-        if not (os.path.exists(ener_file) and os.path.exists(pos_file)):
-            print(f"    [WARNING] Simulation failed at 1st step or incomplete in '{dir_path}'. Output files missing -> Directory skipped.")
+        if os.path.exists(inp_path):
+            with open(inp_path, "r", encoding="utf-8") as f_inp:
+                for line in f_inp:
+                    if line.strip().upper().startswith("PROJECT"):
+                        parts = line.strip().split()
+                        if len(parts) >= 2:
+                            project_name = parts[1]
+                        break
+
+        if project_name:
+            ener_file = os.path.join(dir_path, f"{project_name}-1.ener")
+            pos_file = os.path.join(dir_path, f"{project_name}-pos-1.xyz")
+            frc_file_1 = os.path.join(dir_path, f"{project_name}-forces-frc-1.xyz")
+            frc_file_2 = os.path.join(dir_path, f"{project_name}-forces-1.xyz")
+            has_frc = os.path.exists(frc_file_1) or os.path.exists(frc_file_2)
+        else:
+            # Fallback se non trova il file .inp
+            ener_files = [f for f in os.listdir(dir_path) if f.endswith(".ener")]
+            pos_files = [f for f in os.listdir(dir_path) if f.endswith("-pos-1.xyz")]
+            frc_files = [f for f in os.listdir(dir_path) if "forces" in f]
+            
+            ener_file = os.path.join(dir_path, ener_files[0]) if ener_files else ""
+            pos_file = os.path.join(dir_path, pos_files[0]) if pos_files else ""
+            has_frc = len(frc_files) > 0
+
+        # Verifica che TUTTI e tre i file fondamentali (energie, posizioni, forze) esistano
+        if not (os.path.exists(ener_file) and os.path.exists(pos_file) and has_frc):
+            print(f"    [WARNING] Simulation incomplete or missing output files (energy, positions, or forces) in '{dir_path}'. Directory skipped.")
             continue
 
-        # If the directory is valid, copy conversion.py if we are in a subdirectory
+        # Copia il file di conversione nella sottocartella se ci troviamo in una run_n
         if dir_path != '.':
             shutil.copy(PYTHON_SCRIPT, dir_path)
 
@@ -87,7 +112,13 @@ def main():
         for item in os.listdir(dir_path):
             full_path = os.path.join(dir_path, item)
             if os.path.isfile(full_path):
-                if item not in FILES_TO_KEEP and item != PYTHON_SCRIPT and item != script_filename and item != CONFIG_FILE:
+                # Preserva i file essenziali specificati, gli script, la config e i dati di output di CP2K
+                is_cp2k_data = (item.endswith('.ener') or item.endswith('.xyz') or item == 'output' or item.startswith('cp2k.'))
+                if (item not in FILES_TO_KEEP and 
+                    item != PYTHON_SCRIPT and 
+                    item != script_filename and 
+                    item != CONFIG_FILE and 
+                    not is_cp2k_data):
                     try:
                         os.remove(full_path)
                     except Exception as e:
